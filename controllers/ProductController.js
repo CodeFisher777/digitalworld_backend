@@ -85,6 +85,7 @@ export const create = async (req, res) => {
       category: req.body.category,
       rating: req.body.rating,
       videoUrl: req.body.videoUrl,
+      imageUrl: req.body.imageUrl,
       user: req.userId,
     });
     const product = await doc.save();

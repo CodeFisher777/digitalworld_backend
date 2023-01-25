@@ -20,9 +20,9 @@ const ProductSchema = new mongoose.Schema(
       required: true,
     },
 
-    category: String,
+    category: Number,
 
-    rating: String,
+    rating: Number,
 
     imageUrl: String,
     videoUrl: String,
