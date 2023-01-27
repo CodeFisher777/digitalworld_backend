@@ -4,7 +4,7 @@ import { registerValidation, loginValidation } from './valiadtions.js';
 import { checkAuth, handleValidationErrors } from './utils/index.js';
 import multer from 'multer';
 import cors from 'cors';
-import { UserController, ProductController } from './controllers/index.js';
+import { UserController, ProductController, OrderController } from './controllers/index.js';
 
 mongoose
   .connect(
@@ -43,6 +43,10 @@ app.get('/products/:id', ProductController.getOne);
 app.post('/products', checkAuth, ProductController.create);
 app.delete('/products/:id', checkAuth, ProductController.remove);
 app.patch('/products/:id', checkAuth, ProductController.update);
+
+app.get('/orders', OrderController.getAll);
+app.post('/orders', OrderController.create);
+app.delete('/orders/:id', OrderController.remove);
 
 app.listen(4444, (err) => {
   if (err) {
