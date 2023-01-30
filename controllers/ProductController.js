@@ -125,3 +125,43 @@ export const update = async (req, res) => {
     });
   }
 };
+
+//фильтрация
+export const getCategory = async (req, res) => {
+  try {
+    const cat = req.params.category;
+    ProductModel.find({ category: cat }, (err, doc) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          message: 'не удалось найти товары',
+        });
+      }
+      if (!doc) {
+        return res.status(404).json({
+          message: 'не удалось найти товары',
+        });
+      }
+      res.json(doc);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'не удалось найти товары',
+    });
+  }
+};
+
+//сортировка
+export const getSortPrice = async (req, res) => {
+  try {
+    const sortupdown = req.params.sort;
+    const products = await ProductModel.find().sort({ price: sortupdown });
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'не удалось отсортировать по цене',
+    });
+  }
+};

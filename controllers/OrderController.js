@@ -48,7 +48,8 @@ export const remove = async (req, res) => {
 export const create = async (req, res) => {
   try {
     const doc = new OrderModel({
-      order: req.body,
+      order: req.body.order,
+      numberOrder: req.body.numberOrder,
     });
     const order = await doc.save();
     res.json(order);
