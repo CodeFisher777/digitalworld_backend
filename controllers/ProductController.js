@@ -2,7 +2,30 @@ import ProductModel from '../models/Product.js';
 
 export const getAll = async (req, res) => {
   try {
-    const products = await ProductModel.find();
+    const cat = Number(req.query.category);
+    const sortTitle = req.query.title;
+    const sortPrice = req.query.price;
+    const sortRating = req.query.rating;
+    const currentPage = Number(req.query.currentPage);
+    const skip = currentPage * 8 - 8;
+
+    const searchVal = req.query.search;
+    console.log(searchVal);
+
+    const products = await ProductModel.find(
+      cat ? { category: cat } : {} && { $text: { $search: searchVal } },
+    )
+      .sort(
+        sortTitle
+          ? { title: sortTitle }
+          : null || sortPrice
+          ? { price: sortPrice }
+          : null || sortRating
+          ? { rating: sortRating }
+          : null,
+      )
+      .skip(currentPage ? skip : null)
+      .limit(8);
     res.json(products);
   } catch (err) {
     console.log(err);
@@ -122,46 +145,6 @@ export const update = async (req, res) => {
     console.log(err);
     res.status(500).json({
       message: 'не удалось обновить продукт',
-    });
-  }
-};
-
-//фильтрация
-export const getCategory = async (req, res) => {
-  try {
-    const cat = req.params.category;
-    ProductModel.find({ category: cat }, (err, doc) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).json({
-          message: 'не удалось найти товары',
-        });
-      }
-      if (!doc) {
-        return res.status(404).json({
-          message: 'не удалось найти товары',
-        });
-      }
-      res.json(doc);
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      message: 'не удалось найти товары',
-    });
-  }
-};
-
-//сортировка
-export const getSortPrice = async (req, res) => {
-  try {
-    const sortupdown = req.params.sort;
-    const products = await ProductModel.find().sort({ price: sortupdown });
-    res.json(products);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      message: 'не удалось отсортировать по цене',
     });
   }
 };

@@ -47,10 +47,6 @@ app.patch('/products/:id', checkAuth, ProductController.update);
 app.get('/orders', OrderController.getAll);
 app.post('/orders', OrderController.create);
 app.delete('/orders/:id', OrderController.remove);
-//запросы на фильтрацию
-app.get('/productscategory=:category', ProductController.getCategory);
-
-app.get('/productssortprice:sort', ProductController.getSortPrice);
 
 app.listen(4444, (err) => {
   if (err) {
