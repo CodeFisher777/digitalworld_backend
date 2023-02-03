@@ -7,9 +7,8 @@ import cors from 'cors';
 import { UserController, ProductController, OrderController } from './controllers/index.js';
 
 mongoose
-  .connect(
-    'mongodb+srv://admin:wwwwww@cluster0.regbbwg.mongodb.net/shop?retryWrites=true&w=majority',
-  )
+  .connect(process.env.MONGODB_URI)
+
   .then(() => console.log('DB ok'))
   .catch(() => console.log('DB error', err));
 
@@ -50,7 +49,7 @@ app.get('/lastOrder', OrderController.getLastOne);
 app.post('/orders', OrderController.create);
 app.delete('/orders/:id', OrderController.remove);
 
-app.listen(4444, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
   if (err) {
     return console.log(err);
   }
