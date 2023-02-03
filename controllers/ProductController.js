@@ -8,22 +8,13 @@ export const getAll = async (req, res) => {
     const sortRating = req.query.rating;
     const currentPage = Number(req.query.currentPage);
     const skip = currentPage * 8 - 8;
-
     const searchVal = req.query.search;
-    console.log(searchVal);
 
-    const products = await ProductModel.find(
-      cat ? { category: cat } : {} && { $text: { $search: searchVal } },
-    )
-      .sort(
-        sortTitle
-          ? { title: sortTitle }
-          : null || sortPrice
-          ? { price: sortPrice }
-          : null || sortRating
-          ? { rating: sortRating }
-          : null,
-      )
+    const products = await ProductModel.find(cat ? { category: cat } : {})
+      .find(searchVal ? { $text: { $search: searchVal } } : {})
+      .sort(sortTitle ? { title: sortTitle } : null)
+      .sort(sortPrice ? { price: sortPrice } : null)
+      .sort(sortRating ? { rating: sortRating } : null)
       .skip(currentPage ? skip : null)
       .limit(8);
     res.json(products);

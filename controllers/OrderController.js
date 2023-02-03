@@ -60,3 +60,21 @@ export const create = async (req, res) => {
     });
   }
 };
+
+export const getLastOne = async (req, res) => {
+  try {
+    const orders = await OrderModel.find().sort({ numberOrder: -1 }).limit(1);
+    res.json(orders);
+  } catch (err) {
+    console.log(err);
+    if (orders === undefined) {
+      res.status(501).json({
+        message: 'заказы отсутствуют',
+      });
+    } else {
+      res.status(500).json({
+        message: 'не удалось получить последний номер заказа',
+      });
+    }
+  }
+};

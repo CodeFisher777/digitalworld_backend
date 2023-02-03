@@ -45,6 +45,8 @@ app.delete('/products/:id', checkAuth, ProductController.remove);
 app.patch('/products/:id', checkAuth, ProductController.update);
 
 app.get('/orders', OrderController.getAll);
+app.get('/lastOrder', OrderController.getLastOne);
+
 app.post('/orders', OrderController.create);
 app.delete('/orders/:id', OrderController.remove);
 

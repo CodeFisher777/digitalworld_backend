@@ -9,7 +9,6 @@ const OrderSchema = new mongoose.Schema(
     numberOrder: {
       type: Number,
       required: true,
-      default: 0,
     },
   },
 
